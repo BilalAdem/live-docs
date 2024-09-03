@@ -1,10 +1,7 @@
 "use client";
 
 import Loader from "@/components/Loader";
-import {
-  getClerkUsers,
-  // getDocumentUsers
-} from "@/lib/actions/user.actions";
+import { getClerkUsers, getDocumentUsers } from "@/lib/actions/user.actions";
 import { useUser } from "@clerk/nextjs";
 import {
   ClientSideSuspense,
@@ -24,12 +21,11 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return users;
       }}
       resolveMentionSuggestions={async ({ text, roomId }) => {
-        // await getDocumentUsers({
-        //     roomId,
-        //     currentUser: clerkUser?.emailAddresses[0].emailAddress!,
-        //     text,
-        //   });
-        const roomUsers = [] as any;
+        const roomUsers = await getDocumentUsers({
+          roomId,
+          currentUser: clerkUser?.emailAddresses[0].emailAddress!,
+          text,
+        });
 
         return roomUsers;
       }}
